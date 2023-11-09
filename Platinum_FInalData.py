@@ -1,7 +1,6 @@
 import glob
 import pandas as pd
 import csv
-# import requests
 import os
 from datetime import datetime
 
@@ -10,23 +9,7 @@ class Platinum:
         path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
 
         input_path = path + '/Gold'
-        #AUTO RUN
-        # year = str(datetime.now().year)
-        # month = str(datetime.now().month)
-        # day = str(datetime.now().day - 1)
-
-        #MANUAL RUN
-        # input_year = int(input("Enter the Year : "))
-        # input_month = int(input("Enter the Month : "))
-        # input_day = int(input("Enter the Day : "))
-        # year = str(input_year)
-        # month = str(input_month)
-        # day = str(input_day)
-
-
-
-        # input_path = input_path + "/" + year + "/" + month + "/" + day
-        input_path = input_path + "/" + year  
+        input_path = input_path + "/" + year
         output_path = path + '/Platinum'
         isExist = os.path.exists(output_path)
         if not isExist:
@@ -34,21 +17,24 @@ class Platinum:
 
         csv_files = []
 
-        
         for root, _, files in os.walk(input_path):
             for file in files:
                 if file.endswith(".csv"):
                     csv_files.append(os.path.join(root, file))
-
-        df_list = (pd.read_csv(file) for file in csv_files)
-
+# Assuming your columns are in a specific order
+        df_list = [pd.read_csv(file, header=0) for file in csv_files]
+        desired_columns_order = ["State", "City", "Station", "Date", "CO", "NH3", "NO2", "OZONE", "PM10", "PM2.5", "SO2", "Checks", "AQI", "AQI_Quality"]
         combined_df = pd.concat(df_list, ignore_index=True)
-        final_df = combined_df
+        print(combined_df.columns)
+        final_df = combined_df[desired_columns_order]
 
-        output_file_path = output_path + f'/pollutiondata_Final.csv'
-        final_df.to_csv(output_file_path, mode='a', index=False)
-        # final_df.to_csv(output_file_path, index=False)
+        output_file_path = output_path + f'/pollutiondata_Final - Copy.csv'
+        final_df.to_csv(output_file_path, mode='a', index=False, header=False if os.path.exists(output_file_path) else True)
 
-y=2020
+
+
+  # Append without headers
+
+y = 2023
 year = str(y)
 Platinum.FinalData(year)

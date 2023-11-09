@@ -84,5 +84,3 @@ class Gold:
         current_datetime = datetime.now().strftime('%Y%m%d')
         output_file_path = output_path + f'/Gold_pollutiondata_{current_datetime}.csv'
         final_df.to_csv(output_file_path, index=False)
-
-# Gold.DataTransformation()
