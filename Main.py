@@ -1,41 +1,50 @@
 import subprocess
-from datetime import datetime
+from datetime import datetime,timedelta
 import os
 # this file is use to run all the ETL pipeline
 from Silver_DataCleansing import Silver
 from Gold_DataTransformation import Gold
 from Platinum_FInalData import Platinum
+from Sql_DataTransfer import DataTransfer
+# Function to read the last executed date from the file
+def read_last_executed_date():
+    file_path = "F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\DailyDataAddLogs.txt"
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            date_str = file.read().strip()
+            return datetime.strptime(date_str, "%Y-%m-%d")
+    else:
+        # If the file doesn't exist, return a default date
+        return datetime(2000, 1, 1)
+
+# Function to write the last executed date to the file
+def write_last_executed_date(date):
+    file_path = "F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\DailyDataAddLogs.txt"
+
+    with open(file_path, 'w') as file:
+        file.write(date.strftime("%Y-%m-%d"))
 
 # AUTO RUN
-year = str(datetime.now().year)
-month = str(datetime.now().month)
-day = str(datetime.now().day)
+today = datetime.now()
+last_executed_date = read_last_executed_date()
 
-# # Demo RUN
-# year = str(datetime.now().year)
-# month = str(datetime.now().month)
-# day = str(datetime.now().day)
+# Execute the pipeline for each day from the last executed date to yesterday
+for current_date in (last_executed_date + timedelta(days=n) for n in range(1, (today - last_executed_date).days)):
+    year = str(current_date.year)
+    month = str(current_date.month)
+    day = str(current_date.day)
 
+    folder_path = f"F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject/Bronze/{year}/{month}/{day}"
 
-# CODE FOR MANUAL RUN
-# input_year = int(input("Enter the Year : "))
-# input_year = 2023
-# input_month = 11
-# input_day = 8
-# year = str(input_year)
-# month = str(input_month)
-# day = str(input_day)
-# for i in range(1, 32):
-    # input_day = i
-    # day = str(input_day)
-folder_path = f"F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject/Bronze/{year}/{month}/{day}"  # Replace with the actual path
+    # Check if the folder doesn't exist
+    if not os.path.exists(folder_path):
+        print(f"Folder doesn't exist for {year}-{month}-{day}")
+    else:
+        Silver.Datacleansing(year, month, day)
+        Gold.DataTransformation(year, month, day)
+        Platinum.FinalData(year, month, day)
+        DataTransfer.DataTransferSQL()
+        print(f"Data processed successfully for {year}-{month}-{day}")
 
-# Check if the folder doesn't exist
-if not os.path.exists(folder_path):
-    # continue 
-    print("folder doesnt exist")
-else:
-    Silver.Datacleansing(year,month,day)
-    Gold.DataTransformation(year,month,day)
-    Platinum.FinalData(year,month,day)
-
+# Update the last executed date in the file
+write_last_executed_date(today - timedelta(days=1))

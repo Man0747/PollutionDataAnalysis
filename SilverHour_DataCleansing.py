@@ -21,7 +21,7 @@ class Silver:
         df = df.dropna()
         df = df.drop('id', axis=1)
         df.rename(columns={"country": "Country", "state": "State", "city": "City", "station": "Station",
-                          "last_update": "Date", "pollutant_id": "Pollutant_Type", "pollutant_avg": "Pollutant_Avg",
+                          "last_update": " Date", "pollutant_id": "Pollutant_Type", "pollutant_avg": "Pollutant_Avg",
                           "pollutant_max": "Pollutant_Max"}, inplace=True)
 
         final_df = df.groupby(["Country", "State", "City", "Station", "Date", "Pollutant_Type"]).agg({"Pollutant_Avg": "mean", "Pollutant_Max": "max"}).reset_index()
@@ -37,7 +37,15 @@ class Silver:
         final_df.to_csv(output_file_path, index=False)
 
     @staticmethod
-    def ProcessLastFileInDirectory(input_path, output_path):
+    def ProcessLastFileInDirectory(year,month,day):
+        path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
+        input_path = path + '/Bronze'
+
+        input_path = input_path + "/" + year + "/" + month + "/" + day
+        output_path = os.path.join(path, 'Silver_Hour', year, month, day)
+        isExist = os.path.exists(output_path)
+        if not isExist:
+            os.makedirs(output_path)
         csv_files = glob.glob(input_path + "/*.csv")
 
         if csv_files:
@@ -49,17 +57,9 @@ class Silver:
             print("No CSV files found in the input path.")
 
 # Usage
-path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
-input_path = path + '/Bronze'
 
-year = str(datetime.now().year)
-month = str(datetime.now().month)
-day = str(datetime.now().day)
 
-input_directory = input_path + "/" + year + "/" + month + "/" + day
-output_directory = os.path.join(path, 'Silver_Hour', year, month, day)
-isExist = os.path.exists(output_directory)
-if not isExist:
-    os.makedirs(output_directory)
 
-Silver.ProcessLastFileInDirectory(input_directory, output_directory)
+
+
+# Silver.ProcessLastFileInDirectory(input_directory, output_directory)

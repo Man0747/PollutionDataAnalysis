@@ -5,36 +5,34 @@ import os
 from datetime import datetime
 
 class Platinum:
-    def FinalData(year):
+    @staticmethod
+    def FinalData(year, month, day):
         path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
 
-        input_path = path + '/Gold'
-        input_path = input_path + "/" + year
-        output_path = path + '/Platinum'
+        input_path = f"{path}/Gold/{year}/{month}/{day}"
+        output_path = f"{path}/Platinum"
         isExist = os.path.exists(output_path)
         if not isExist:
             os.makedirs(output_path)
 
-        csv_files = []
+        csv_file_path = None
 
-        for root, _, files in os.walk(input_path):
-            for file in files:
-                if file.endswith(".csv"):
-                    csv_files.append(os.path.join(root, file))
-# Assuming your columns are in a specific order
-        df_list = [pd.read_csv(file, header=0) for file in csv_files]
-        desired_columns_order = ["State", "City", "Station", "Date", "CO", "NH3", "NO2", "OZONE", "PM10", "PM2.5", "SO2", "Checks", "AQI", "AQI_Quality"]
-        combined_df = pd.concat(df_list, ignore_index=True)
-        print(combined_df.columns)
-        final_df = combined_df[desired_columns_order]
+        for file in os.listdir(input_path):
+            if file.endswith(".csv"):
+                csv_file_path = os.path.join(input_path, file)
+                break
 
-        output_file_path = output_path + f'/pollutiondata_Final - Copy.csv'
-        final_df.to_csv(output_file_path, mode='a', index=False, header=False if os.path.exists(output_file_path) else True)
-
-
+        if csv_file_path:
+            desired_columns_order = ["State", "City", "Station", "Date", "CO", "NH3", "NO2", "OZONE", "PM10", "PM2.5", "SO2", "Checks", "AQI", "AQI_Quality"]
+            df = pd.read_csv(csv_file_path, header=0)[desired_columns_order]
+            output_file_path = f"{output_path}/pollutiondata_Final.csv"
+            df.to_csv(output_file_path, mode='a', index=False, header=False if os.path.exists(output_file_path) else True)
+            print("File processed successfully!")
+        else:
+            print("No CSV files found in the specified directory.")
 
   # Append without headers
 
-y = 2023
-year = str(y)
-Platinum.FinalData(year)
+# y = 2023
+# year = str(y)
+# Platinum.FinalData(year)
