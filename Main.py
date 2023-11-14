@@ -1,6 +1,16 @@
 import subprocess
 from datetime import datetime,timedelta
 import os
+import sys
+
+
+print(sys.path)
+print(sys.executable)
+try:
+    import mysql.connector
+except ImportError:
+    print("mysql-connector module not found. Installing...")
+    subprocess.run(["pip", "install", "mysql.connector"])
 # this file is use to run all the ETL pipeline
 from Silver_DataCleansing import Silver
 from Gold_DataTransformation import Gold

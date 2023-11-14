@@ -1,8 +1,6 @@
 import pandas as pd
 import glob
-import csv
 import os
-from datetime import datetime
 
 class Silver:
 
@@ -21,10 +19,11 @@ class Silver:
         df = df.dropna()
         df = df.drop('id', axis=1)
         df.rename(columns={"country": "Country", "state": "State", "city": "City", "station": "Station",
-                          "last_update": " Date", "pollutant_id": "Pollutant_Type", "pollutant_avg": "Pollutant_Avg",
-                          "pollutant_max": "Pollutant_Max"}, inplace=True)
+                           "last_update": "Date", "pollutant_id": "Pollutant_Type", "pollutant_avg": "Pollutant_Avg",
+                           "pollutant_max": "Pollutant_Max"}, inplace=True)
 
-        final_df = df.groupby(["Country", "State", "City", "Station", "Date", "Pollutant_Type"]).agg({"Pollutant_Avg": "mean", "Pollutant_Max": "max"}).reset_index()
+        final_df = df.groupby(["Country", "State", "City", "Station", "Date", "Pollutant_Type"]).agg(
+            {"Pollutant_Avg": "mean", "Pollutant_Max": "max"}).reset_index()
         final_df["Pollutant_Avg"] = final_df["Pollutant_Avg"].round(2)
         final_df["Pollutant_Max"] = final_df["Pollutant_Max"].round(2)
 
@@ -36,30 +35,50 @@ class Silver:
         output_file_path = os.path.join(output_path, f'Silver_{output_file_name}')
         final_df.to_csv(output_file_path, index=False)
 
-    @staticmethod
-    def ProcessLastFileInDirectory(year,month,day):
-        path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
-        input_path = path + '/Bronze'
+        # Save the processed file name to a tracking file
+        tracking_file_path = "F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Silver_processed_files.txt"
+        with open(tracking_file_path, 'a') as tracking_file:
+            tracking_file.write(output_file_name + '\n')
 
-        input_path = input_path + "/" + year + "/" + month + "/" + day
+    @staticmethod
+    def CleanProcessedFilesForNextDay(output_path):
+        # Clean the tracking file for the next day
+        tracking_file_path = 'F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Silver_processed_files.txt'
+        if os.path.exists(tracking_file_path):
+            os.remove(tracking_file_path)
+
+    @staticmethod
+    def ProcessLastFileInDirectory(year, month, day):
+        path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
+        input_path = os.path.join(path, 'Bronze', year, month, day)
         output_path = os.path.join(path, 'Silver_Hour', year, month, day)
-        isExist = os.path.exists(output_path)
-        if not isExist:
+        is_exist = os.path.exists(output_path)
+        if not is_exist:
             os.makedirs(output_path)
+
+        # Clean processed files for the next day
+        # Silver.CleanProcessedFilesForNextDay(output_path)
+
+        # Load the list of processed files
+        tracking_file_path = 'F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Silver_processed_files.txt'
+        processed_files = set()
+        if os.path.exists(tracking_file_path):
+            with open(tracking_file_path, 'r') as tracking_file:
+                processed_files = set(tracking_file.read().splitlines())
+
         csv_files = glob.glob(input_path + "/*.csv")
 
         if csv_files:
-            # Sort the files by modification time to get the most recent one
-            csv_files.sort(key=os.path.getmtime)
-            last_file = csv_files[-1]
-            Silver.DatacleansingForFile(last_file, output_path)
+            for file in csv_files:
+                if os.path.basename(file) not in processed_files:
+                    Silver.DatacleansingForFile(file, output_path)
         else:
             print("No CSV files found in the input path.")
 
 # Usage
+# Specify the year, month, and day for the directory you want to process
+year = '2023'
+month = '11'
+day = '13'
 
-
-
-
-
-# Silver.ProcessLastFileInDirectory(input_directory, output_directory)
+Silver.ProcessLastFileInDirectory(year, month, day)
