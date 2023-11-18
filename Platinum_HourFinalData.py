@@ -29,7 +29,7 @@ class Platinum:
         else:
             print("No CSV files found in the specified directory.")
 
-year = "2023"
-month = "11"
-day = "13"
-Platinum.FinalData(year, month, day)
+# year = "2023"
+# month = "11"
+# day = "13"
+# Platinum.FinalData(year, month, day)

@@ -77,8 +77,8 @@ class Silver:
 
 # Usage
 # Specify the year, month, and day for the directory you want to process
-year = '2023'
-month = '11'
-day = '13'
+# year = '2023'
+# month = '11'
+# day = '13'
 
-Silver.ProcessLastFileInDirectory(year, month, day)
+# Silver.ProcessLastFileInDirectory(year, month, day)

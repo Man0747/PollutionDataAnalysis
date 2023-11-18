@@ -4,8 +4,8 @@ import os
 # this file is use to run all the ETL pipeline
 from SilverHour_DataCleansing import Silver
 from GoldHour_DataTransformation import Gold
-# from Platinum_FInalData import Platinum
-# from Sql_DataTransfer import DataTransfer
+from Platinum_HourFinalData import Platinum
+from SQL_HourlyDataTransfer import DataTransfer
 
 
 year = str(datetime.now().year)
@@ -21,6 +21,6 @@ if not os.path.exists(folder_path):
 else:
     Silver.ProcessLastFileInDirectory(year,month,day)
     Gold.ProcessLastFileInDirectory(year,month,day)
-    # Platinum.FinalData(year,month,day)
-    # DataTransfer.DataTransferSQL()
+    Platinum.FinalData(year, month, day)
+    DataTransfer.DataTransferSQL()
     print("Hourly file data processed success")

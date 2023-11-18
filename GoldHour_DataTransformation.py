@@ -103,11 +103,11 @@ class Gold:
 
 # Usage
 # Specify the year, month, and day for the directory you want to process
-year = '2023'
-month = '11'
-day = '13'
+# year = '2023'
+# month = '11'
+# day = '13'
 
-Gold.ProcessLastFileInDirectory(year, month, day)
+# Gold.ProcessLastFileInDirectory(year, month, day)
 # Usage
 
 

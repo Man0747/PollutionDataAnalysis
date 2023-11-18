@@ -1,0 +1,9 @@
+*.log
+venv/
+__pycache__/GoldHour_DataTransformation.cpython-311.pyc
+__pycache__/GoldHour_DataTransformation.cpython-311.pyc
+__pycache__/SilverHour_DataCleansing.cpython-311.pyc
+__pycache__/Platinum_HourFinalData.cpython-311.pyc
+__pycache__/Sql_DataTransfer.cpython-311.pyc
+__pycache__/SQL_HourlyDataTransfer.cpython-311.pyc
+__pycache__/GoldHour_DataTransformation.cpython-311.pyc
