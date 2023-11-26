@@ -66,7 +66,7 @@ class Silver:
                 combined_df[column] = combined_df[column].replace('NA', 0)
                
         # combined_df = combined_df.drop('pollutant_unit', axis=1)
-        combined_df = combined_df.dropna()
+        # combined_df = combined_df.dropna()
 
         combined_df["Date"] = pd.to_datetime(combined_df["last_update"], format="%d-%m-%Y %H:%M:%S").dt.date
         combined_df.rename(columns={"country": "Country", "state": "State","city": "City","station": "Station","pollutant_id": "Pollutant_Type","pollutant_avg": "Pollutant_Avg","pollutant_max": "Pollutant_Max"}, inplace=True)

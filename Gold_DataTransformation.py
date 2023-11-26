@@ -62,7 +62,7 @@ class Gold:
                 return "Severe"
             else:
                 return np.NaN
-
+        print(final_df.columns)
         final_df["Checks"] = (final_df["PM2.5"] > 0).astype(int) + \
                         (final_df["PM10"] > 0).astype(int) + \
                         (final_df["SO2"] > 0).astype(int) + \
