@@ -89,8 +89,8 @@ class DataTransfer:
         db_config = {
             'host': 'localhost',
             'user': 'root',
-            'password': 'Impetus@123',
-            'database': 'pollutiondata'
+            'password': 'admin',
+            'database': 'udyaansaathidata'
         }
 
         csv_file_path = 'F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Platinum_Hour\pollutiondata_Final.csv'
@@ -99,18 +99,19 @@ class DataTransfer:
         cursor = connection.cursor()
 
         final_df = pd.read_csv(csv_file_path)
+        print(final_df["Date"])
         final_df = pd.read_csv(csv_file_path, parse_dates=['Date'], infer_datetime_format=True)
         final_df.rename(columns={"Date": "Pol_Date","PM2.5": "PM25"}, inplace=True)
         final_df['Pol_Date'] = pd.to_datetime(final_df['Pol_Date'], format='%d-%m-%Y %H:%M:%S', errors='coerce').dt.strftime('%Y-%m-%d %H:%M:%S')
 
 
-        table_name = "pollutiondata.hourlydata"
+        table_name = "udyaansaathidata.hourlydata"
 
 
         data_delete = f"DELETE FROM {table_name};"
         cursor.execute(data_delete)
         connection.commit()
-
+        print(final_df["Pol_Date"])
         for _, row in final_df.iterrows():
             
             insert_query = f'INSERT INTO {table_name} ({", ".join(final_df.columns)}) VALUES ({", ".join(["%s" for _ in final_df.columns])})'
@@ -120,3 +121,4 @@ class DataTransfer:
         connection.close()
     
         
+    DataTransferSQL()

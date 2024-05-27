@@ -23,7 +23,7 @@ class Platinum:
                 break
 
         if csv_file_path:
-            desired_columns_order = ["State", "City", "Station", "Date", "CO", "NH3", "NO2", "OZONE", "PM10", "PM2.5", "SO2", "Checks", "AQI", "AQI_Quality"]
+            desired_columns_order = ["State", "City", "Station", "Date", "CO", "NH3", "NO2", "OZONE", "PM10", "PM2.5", "SO2", "Checks", "AQI", "AQI_Quality","Longitude","Latitude"]
             df = pd.read_csv(csv_file_path, header=0)[desired_columns_order]
             output_file_path = f"{output_path}/pollutiondata_Final.csv"
             df.to_csv(output_file_path, mode='a', index=False, header=False if os.path.exists(output_file_path) else True)

@@ -16,7 +16,7 @@ class Gold:
         df = pd.read_csv(input_file)
 
         final_df = df.pivot_table(
-            index=["State", "City", "Station", "Date"],
+            index=["State", "City", "Station", "Date","Longitude","Latitude"],
             columns='Pollutant_Type',
             values='Pollutant_Data',
             fill_value=0

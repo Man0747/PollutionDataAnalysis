@@ -35,13 +35,16 @@ class Gold:
 
 
         csv_files = glob.glob(input_path + "/*.csv")
+        if not csv_files:
+            print("No CSV files found in the specified directory.")
+            return
 
         df_list = (pd.read_csv(file) for file in csv_files)
 
         combined_df = pd.concat(df_list, ignore_index=True)
 
         final_df = combined_df.pivot_table( 
-                                index=["State", "City", "Station", "Date"],
+                                index=["State", "City", "Station", "Date","Longitude","Latitude"],
                                 columns='Pollutant_Type', 
                                 values='Pollutant_Data',
                                 fill_value=0
@@ -84,3 +87,5 @@ class Gold:
         current_datetime = datetime.now().strftime('%Y%m%d')
         output_file_path = output_path + f'/Gold_pollutiondata_{current_datetime}.csv'
         final_df.to_csv(output_file_path, index=False)
+
+# Gold.DataTransformation('2024','5','19')

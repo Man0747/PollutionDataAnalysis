@@ -18,7 +18,7 @@ class Platinum:
         csv_files = glob.glob(os.path.join(input_path, "*.csv"))
 
         if csv_files:
-            desired_columns_order = ["State", "City", "Station", "Date", "CO", "NH3", "NO2", "OZONE", "PM10", "PM2.5", "SO2", "Checks", "AQI", "AQI_Quality"]
+            desired_columns_order = ["State", "City", "Station", "Date", "CO", "NH3", "NO2", "OZONE", "PM10", "PM2.5", "SO2", "Checks", "AQI", "AQI_Quality","Longitude","Latitude"]
 
             for csv_file_path in csv_files:
                 df = pd.read_csv(csv_file_path, header=0)[desired_columns_order]

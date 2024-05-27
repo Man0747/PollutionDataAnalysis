@@ -39,22 +39,28 @@ today = datetime.now()
 last_executed_date = read_last_executed_date()
 
 # Execute the pipeline for each day from the last executed date to yesterday
-for current_date in (last_executed_date + timedelta(days=n) for n in range(1, (today - last_executed_date).days)):
-    year = str(current_date.year)
-    month = str(current_date.month)
-    day = str(current_date.day)
+try:
+    for current_date in (last_executed_date + timedelta(days=n) for n in range(1, (today - last_executed_date).days)):
+        year = str(current_date.year)
+        month = str(current_date.month)
+        day = str(current_date.day)
 
-    folder_path = f"F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject/Bronze/{year}/{month}/{day}"
+        folder_path = f"F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject/Bronze/{year}/{month}/{day}"
 
-    # Check if the folder doesn't exist
-    if not os.path.exists(folder_path):
-        print(f"Folder doesn't exist for {year}-{month}-{day}")
-    else:
-        Silver.Datacleansing(year, month, day)
-        Gold.DataTransformation(year, month, day)
-        Platinum.FinalData(year, month, day)
-        DataTransfer.DataTransferSQL()
-        print(f"Data processed successfully for {year}-{month}-{day}")
+        # Check if the folder doesn't exist
+        if not os.path.exists(folder_path):
+            print(f"Folder doesn't exist for {year}-{month}-{day}")
+        else:
+            Silver.Datacleansing(year, month, day)
+            Gold.DataTransformation(year, month, day)
+            Platinum.FinalData(year, month, day)
+            print(f"Data processed successfully for {year}-{month}-{day}")
+except Exception as e:
+    print(f"An error occurred: {e}")
+finally:
+    # Ensure DataTransferSQL and write_last_executed_date are executed
+    DataTransfer.DataTransferSQL()
+    # write_last_executed_date(today - timedelta(days=1))
+    write_last_executed_date(current_date)
 
 # Update the last executed date in the file
-write_last_executed_date(today - timedelta(days=1))

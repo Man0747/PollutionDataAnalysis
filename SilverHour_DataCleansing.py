@@ -17,13 +17,11 @@ class Silver:
                 df[column] = df[column].replace('NA', 0)
 
         df = df.dropna()
-        df = df.drop('id', axis=1)
+        # df = df.drop('id', axis=1)
         df.rename(columns={"country": "Country", "state": "State", "city": "City", "station": "Station",
-                           "last_update": "Date", "pollutant_id": "Pollutant_Type", "pollutant_avg": "Pollutant_Avg",
-                           "pollutant_max": "Pollutant_Max"}, inplace=True)
+                           "last_update": "Date", "pollutant_id": "Pollutant_Type", "pollutant_avg": "Pollutant_Avg","pollutant_max": "Pollutant_Max","longitude": "Longitude","latitude": "Latitude"}, inplace=True)
 
-        final_df = df.groupby(["Country", "State", "City", "Station", "Date", "Pollutant_Type"]).agg(
-            {"Pollutant_Avg": "mean", "Pollutant_Max": "max"}).reset_index()
+        final_df = df.groupby(["Country", "State", "City", "Station", "Date", "Pollutant_Type","Longitude","Latitude"]).agg({"Pollutant_Avg": "mean", "Pollutant_Max": "max"}).reset_index()
         final_df["Pollutant_Avg"] = final_df["Pollutant_Avg"].round(2)
         final_df["Pollutant_Max"] = final_df["Pollutant_Max"].round(2)
 

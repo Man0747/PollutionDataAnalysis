@@ -1,3 +1,1 @@
-
-
-# mycursor.execute("CREATE DATABASE PollutionData")
+final_df = pd.read_csv(csv_file_path)
