@@ -15,7 +15,7 @@ import sys
 from Silver_DataCleansing import Silver
 from Gold_DataTransformation import Gold
 from Platinum_FInalData import Platinum
-from Sql_DataTransfer import DataTransfer
+from Sql_HeavyLoadDataTransfer import DataTransfer
 # Function to read the last executed date from the file
 def read_last_executed_date():
     file_path = "F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\DailyDataAddLogs.txt"
