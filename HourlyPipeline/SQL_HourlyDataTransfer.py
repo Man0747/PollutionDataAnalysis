@@ -102,7 +102,7 @@ class DataTransfer:
         print(final_df["Date"])
         final_df = pd.read_csv(csv_file_path, parse_dates=['Date'], infer_datetime_format=True)
         final_df.rename(columns={"Date": "Pol_Date","PM2.5": "PM25"}, inplace=True)
-        final_df['Pol_Date'] = pd.to_datetime(final_df['Pol_Date'], format='%d-%m-%Y %H:%M:%S', errors='coerce').dt.strftime('%Y-%m-%d %H:%M:%S')
+        final_df['Pol_Date'] = pd.to_datetime(final_df['Pol_Date'], format='%d-%m-%Y %H:%M:%S', errors='coerce ').dt.strftime('%Y-%m-%d %H:%M:%S')
 
 
         table_name = "udyaansaathidata.hourlydata"
