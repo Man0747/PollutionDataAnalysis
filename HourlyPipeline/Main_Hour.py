@@ -6,7 +6,7 @@ from SilverHour_DataCleansing import Silver
 from GoldHour_DataTransformation import Gold
 from Platinum_HourFinalData import Platinum
 from SQL_HourlyDataTransfer import DataTransfer
-
+from Sql_HourlyIncrementalLoadDataTransfer import HourlyImplementLoadDataTransfer
 
 year = str(datetime.now().year)
 month = str(datetime.now().month)
@@ -22,5 +22,6 @@ else:
     Silver.ProcessLastFileInDirectory(year,month,day)
     Gold.ProcessLastFileInDirectory(year,month,day)
     Platinum.FinalData(year, month, day)
-    DataTransfer.DataTransferSQL()
+    HourlyImplementLoadDataTransfer.DataTransferSQL(year, month, day)
+
     print("Hourly file data processed success")

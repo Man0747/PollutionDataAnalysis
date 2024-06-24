@@ -15,7 +15,7 @@ import sys
 from Silver_DataCleansing import Silver
 from Gold_DataTransformation import Gold
 from Platinum_FInalData import Platinum
-# from Sql_HeavyLoadDataTransfer import DataTransfer
+from Sql_HourlyDataCleaning import DataCleaning
 from Sql_IncrementalLoadDataTransfer import ImplementLoadDataTransfer
 # Function to read the last executed date from the file
 def read_last_executed_date():
@@ -56,6 +56,7 @@ try:
             Gold.DataTransformation(year, month, day)
             Platinum.FinalData(year, month, day)
             ImplementLoadDataTransfer.DataTransferSQL(year,month,day)
+            DataCleaning.DataTransferSQL(year,month,day)
             print(f"Data processed successfully for {year}-{month}-{day}")
 except Exception as e:
     print(f"An error occurred: {e}")
