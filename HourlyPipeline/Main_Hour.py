@@ -5,7 +5,7 @@ import os
 from SilverHour_DataCleansing import Silver
 from GoldHour_DataTransformation import Gold
 from Platinum_HourFinalData import Platinum
-from SQL_HourlyDataTransfer import DataTransfer
+# from SQL_HourlyDataTransfer import DataTransfer
 from Sql_HourlyIncrementalLoadDataTransfer import HourlyImplementLoadDataTransfer
 
 year = str(datetime.now().year)

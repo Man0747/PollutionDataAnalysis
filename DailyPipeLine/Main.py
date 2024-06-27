@@ -17,6 +17,7 @@ from Gold_DataTransformation import Gold
 from Platinum_FInalData import Platinum
 from Sql_HourlyDataCleaning import DataCleaning
 from Sql_IncrementalLoadDataTransfer import ImplementLoadDataTransfer
+from Ml_DataTransfer import ML_SqlDataTransfer
 # Function to read the last executed date from the file
 def read_last_executed_date():
     file_path = "F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\DailyDataAddLogs.txt"
@@ -57,6 +58,7 @@ try:
             Platinum.FinalData(year, month, day)
             ImplementLoadDataTransfer.DataTransferSQL(year,month,day)
             DataCleaning.DataTransferSQL(year,month,day)
+            ML_SqlDataTransfer.InsertMlDataInSql()
             print(f"Data processed successfully for {year}-{month}-{day}")
 except Exception as e:
     print(f"An error occurred: {e}")
