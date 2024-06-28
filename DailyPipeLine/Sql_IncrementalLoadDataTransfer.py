@@ -41,10 +41,10 @@ class ImplementLoadDataTransfer:
             cursor.executemany(insert_query, batch_data)
             connection.commit()
 
-        last_update_table = "pollutiondatalastupdate"
-        last_update_query = f"INSERT INTO {last_update_table} (updated_date) VALUES ('{year}-{month:02d}-{day:02d}')"
-        cursor.execute(last_update_query)
-        connection.commit()
+        # last_update_table = "pollutiondatalastupdate"
+        # last_update_query = f"INSERT INTO {last_update_table} (updated_date) VALUES ('{year}-{month:02d}-{day:02d}')"
+        # cursor.execute(last_update_query)
+        # connection.commit()
 
         connection.close()
 
