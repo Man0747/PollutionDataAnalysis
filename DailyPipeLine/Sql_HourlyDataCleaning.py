@@ -31,4 +31,4 @@ class DataCleaning:
         connection.close()
 
 # Example usage
-# DataCleaning.DataTransferSQL(2024, 6, 23)
+DataCleaning.DataTransferSQL(2024, 6, 27)
