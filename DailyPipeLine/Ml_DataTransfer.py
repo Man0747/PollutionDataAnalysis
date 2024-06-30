@@ -111,3 +111,4 @@ class ML_SqlDataTransfer:
 
         cursor.close()
         conn.close()
+# ML_SqlDataTransfer.InsertMlDataInSql()
