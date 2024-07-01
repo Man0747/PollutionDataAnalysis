@@ -8,16 +8,30 @@ import matplotlib.pyplot as plt
 import mysql.connector
 
 class ML_SqlDataTransfer:
-    def InsertMlDataInSql():
+    def InsertMlDataInSql(config):
         dataset_path = r"F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Platinum\pollutiondata_Final.csv"
         dataset = pd.read_csv(dataset_path)
 
-        db_config = {
-                    'host': '127.0.0.1',
-                    'user': 'root',
-                    'password': 'admin',
-                    'database': 'UdyaanSaathiData'
-                }
+        # local_db_config = {
+        #     'host': '127.0.0.1',
+        #     'user': 'root',
+        #     'password': 'admin',
+        #     'database': 'UdyaanSaathiData'
+        # }
+
+        # azure_db_config = {
+        #     'host': 'mysqlmannan01.mysql.database.azure.com',
+        #     'user': 'mannan',
+        #     'password': 'Khetan@123',
+        #     'database': 'udyaansaathidata',
+        #     'client_flags': [mysql.connector.ClientFlag.SSL],
+        #     'ssl_ca': r'F:\Education\COLLEGE\PROGRAMING\Python\Codes\PolutionDataAnalysis\Devlopment\PollutionDataAnalysis\DigiCertGlobalRootG2.crt.pem'
+        # }
+
+        # db_config = azure_db_config if keyword.lower() == 'azure' else local_db_config
+
+        db_config = config
+
         conn = mysql.connector.connect(**db_config)
 
         # Create a MySQL cursor
@@ -111,4 +125,6 @@ class ML_SqlDataTransfer:
 
         cursor.close()
         conn.close()
-# ML_SqlDataTransfer.InsertMlDataInSql()
+
+# Example usage:
+# ML_SqlDataTransfer.InsertMlDataInSql(azure)
