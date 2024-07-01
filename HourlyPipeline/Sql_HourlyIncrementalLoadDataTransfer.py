@@ -45,9 +45,23 @@ class HourlyImplementLoadDataTransfer:
                 continue
             
             print("Processing File", csv_file)
-            final_df = pd.read_csv(csv_file, parse_dates=['Date'])
+
+
+            final_df = pd.read_csv(csv_file)
+            print(final_df['Date'])
+
+            # Rename the columns
             final_df.rename(columns={"Date": "Pol_Date", "PM2.5": "PM25"}, inplace=True)
-            final_df['Pol_Date'] = pd.to_datetime(final_df['Pol_Date'], format='%d-%m-%Y %H:%M:%S', errors='coerce').dt.strftime('%Y-%m-%d %H:%M:%S')
+
+            # Correctly parse the date with the correct format
+            final_df['Pol_Date'] = pd.to_datetime(final_df['Pol_Date'], format='%d-%m-%Y %H:%M:%S', errors='coerce')
+
+            # Format the date as 'YYYY-MM-DD HH:MM:SS'
+            final_df['Pol_Date'] = final_df['Pol_Date'].dt.strftime('%Y-%m-%d %H:%M:%S')
+            print(final_df['Pol_Date'])
+
+
+
             table_name = "hourlydata"
             batch_size = 1000  # Adjust batch size as needed
             insert_query = f'INSERT INTO {table_name} ({", ".join(final_df.columns)}) VALUES ({", ".join(["%s" for _ in final_df.columns])})'
@@ -72,4 +86,4 @@ class HourlyImplementLoadDataTransfer:
         connection.close()
 
 # Example usage:
-# HourlyImplementLoadDataTransfer.DataTransferSQL(2024, 6, 29, 'azure')
+HourlyImplementLoadDataTransfer.DataTransferSQL(2024, 7, 1, 'azure')
