@@ -2,12 +2,13 @@ import pandas as pd
 import mysql.connector
 import glob
 import os
+from datetime import datetime
 
 class HourlyImplementLoadDataTransfer:
 
     @staticmethod
-    def DataTransferSQL(year, month, day):
-        db_config = {
+    def DataTransferSQL(year, month, day, keyword):
+        local_db_config = {
             'host': 'localhost',
             'user': 'root',
             'password': 'admin',
@@ -15,18 +16,28 @@ class HourlyImplementLoadDataTransfer:
             'connection_timeout': 600  # Set a longer timeout
         }
 
+        azure_db_config = {
+            'host': 'mysqlmannan01.mysql.database.azure.com',
+            'user': 'mannan',
+            'password': 'Khetan@123',
+            'database': 'udyaansaathidata',
+            'client_flags': [mysql.connector.ClientFlag.SSL],
+            'ssl_ca': 'F:\Education\COLLEGE\PROGRAMING\Python\Codes\PolutionDataAnalysis\Devlopment\PollutionDataAnalysis\DigiCertGlobalRootG2.crt.pem'
+        }
+
+        db_config = azure_db_config if keyword.lower() == 'azure' else local_db_config
+
         path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
 
         input_path = f"{path}/Gold_Hour/{year}/{month}/{day}"
         input_files = glob.glob(input_path + "/*.csv")
         
-        processed_files = set()
-        if os.path.exists('F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Sql_proccessed_Files.txt'):
-            with open('F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Sql_proccessed_Files.txt', 'r') as f:
-                processed_files = set(f.read().splitlines())
-
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor()
+        
+        # Get already processed files from the database
+        cursor.execute("SELECT file_name FROM processed_files")
+        processed_files = set(row[0] for row in cursor.fetchall())
 
         for csv_file in input_files:
             if csv_file in processed_files:
@@ -47,10 +58,10 @@ class HourlyImplementLoadDataTransfer:
                 cursor.executemany(insert_query, batch_data)
                 connection.commit()
 
-            # Append processed file to the text document
-            processed_files.add(csv_file)
-            with open('F:\Education\COLLEGE\PROGRAMING\Python\PROJECTS\PollutionDataAnalysisProject\Sql_proccessed_Files.txt', 'a') as f:
-                f.write(csv_file + '\n')
+            # Insert processed file record into the database
+            processed_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            cursor.execute("INSERT INTO processed_files (file_name, processed_time) VALUES (%s, %s)", (csv_file, processed_time))
+            connection.commit()
 
         # Optionally, update last update table
         # last_update_table = "hourlypollutiondatalastupdate"
@@ -61,4 +72,4 @@ class HourlyImplementLoadDataTransfer:
         connection.close()
 
 # Example usage:
-HourlyImplementLoadDataTransfer.DataTransferSQL(2024, 6, 28)
+# HourlyImplementLoadDataTransfer.DataTransferSQL(2024, 6, 29, 'azure')

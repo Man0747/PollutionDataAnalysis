@@ -10,15 +10,25 @@ class ImplementLoadDataTransfer:
             return date
 
     @staticmethod
-    def DataTransferSQL(year,month,day):
-        db_config = {
-            'host': 'localhost',
-            'user': 'root',
-            'password': 'admin',
-            'database': 'udyaansaathidata',
-            'connection_timeout': 600  # Set a longer timeout
-        }
+    def DataTransferSQL(year,month,day,config):
+        # local_db_config = {
+        #     'host': 'localhost',
+        #     'user': 'root',
+        #     'password': 'admin',
+        #     'database': 'udyaansaathidata',
+        #     'connection_timeout': 600  # Set a longer timeout
+        # }
+        # azure_db_config = {
+        #     'host': 'mysqlmannan01.mysql.database.azure.com',
+        #     'user': 'mannan',
+        #     'password': 'Khetan@123',
+        #     'database': 'udyaansaathidata',
+        #     'client_flags': [mysql.connector.ClientFlag.SSL],
+        #     'ssl_ca': r'F:\Education\COLLEGE\PROGRAMING\Python\Codes\PolutionDataAnalysis\Devlopment\PollutionDataAnalysis\DigiCertGlobalRootG2.crt.pem'
+        # }
 
+        # db_config = azure_db_config if keyword.lower() == 'azure' else local_db_config
+        db_config = config
         path = 'F:/Education/COLLEGE/PROGRAMING/Python/PROJECTS/PollutionDataAnalysisProject'
 
         input_path = f"{path}/Gold/{year}/{month}/{day}"
@@ -48,4 +58,4 @@ class ImplementLoadDataTransfer:
 
         connection.close()
 
-# ImplementLoadDataTransfer.DataTransferSQL(2024,6,23)
+# ImplementLoadDataTransfer.DataTransferSQL(2024,6,23,azure)

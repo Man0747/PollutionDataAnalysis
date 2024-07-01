@@ -22,6 +22,6 @@ else:
     Silver.ProcessLastFileInDirectory(year,month,day)
     Gold.ProcessLastFileInDirectory(year,month,day)
     Platinum.FinalData(year, month, day)
-    HourlyImplementLoadDataTransfer.DataTransferSQL(year, month, day)
-
+    HourlyImplementLoadDataTransfer.DataTransferSQL(year, month, day,"Local")
+    HourlyImplementLoadDataTransfer.DataTransferSQL(year, month, day,"Azure")
     print("Hourly file data processed success")
