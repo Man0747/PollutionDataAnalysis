@@ -93,3 +93,4 @@ def run_pipeline_for_config(config):
 # Run the pipeline separately for local and Azure databases
 run_pipeline_for_config(local_db_config)
 run_pipeline_for_config(azure_db_config)
+

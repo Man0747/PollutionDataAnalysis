@@ -50,3 +50,4 @@ class DataCleaning:
 
 # Example usage
 # DataCleaning.DataTransferSQL(2024, 6, 29,'azure')
+

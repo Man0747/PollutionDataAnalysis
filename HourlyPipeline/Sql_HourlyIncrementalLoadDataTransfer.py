@@ -86,4 +86,7 @@ class HourlyImplementLoadDataTransfer:
         connection.close()
 
 # Example usage:
-HourlyImplementLoadDataTransfer.DataTransferSQL(2024, 7, 1, 'azure')
+# HourlyImplementLoadDataTransfer.DataTransferSQL(2024, 7, 1, 'azure')
+
+
+

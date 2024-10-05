@@ -36,3 +36,4 @@ class Platinum:
 # y = 2023
 # year = str(y)
 # Platinum.FinalData(year)
+

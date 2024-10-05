@@ -25,3 +25,5 @@ else:
     HourlyImplementLoadDataTransfer.DataTransferSQL(year, month, day,"Local")
     HourlyImplementLoadDataTransfer.DataTransferSQL(year, month, day,"Azure")
     print("Hourly file data processed success")
+
+    

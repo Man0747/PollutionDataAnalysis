@@ -59,3 +59,4 @@ class ImplementLoadDataTransfer:
         connection.close()
 
 # ImplementLoadDataTransfer.DataTransferSQL(2024,6,23,azure)
+

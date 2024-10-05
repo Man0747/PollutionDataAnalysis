@@ -128,3 +128,4 @@ class ML_SqlDataTransfer:
 
 # Example usage:
 # ML_SqlDataTransfer.InsertMlDataInSql(azure)
+
